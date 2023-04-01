@@ -1,4 +1,5 @@
 import Image from "next/image"
+import VerifiedIcon from '@mui/icons-material/Verified';
 import Marquee from "./menu/Marquee"
 import img from "public/img/Exaion.png"
 import img2 from "public/img/SIAXP.png"
@@ -10,20 +11,21 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { toast } from "react-hot-toast"
+import axios from "axios";
 
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 600,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
 };
 
-export default function Expertises(props: any) {
+export default function Expertises({ data }: any) {
 
   const [change, setChange]: any = useState(null)
   const [error, setError]: any = useState(null)
@@ -32,38 +34,73 @@ export default function Expertises(props: any) {
 
   // modal
   const [open, setOpen] = useState(false);
-  function handleOpen(e: any) {
-    console.log(e)
+  async function handleOpen(e: any) {
     setModalData(e)
     // TODO: AXIOS REQUEST todo data ?
+    try {
+
+      const axios = require('axios');
+      const res = await axios({
+        method: 'get',
+        url: `https://siahackaton.reskue-art.com/partner/${e.name}`,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log(res)
+
+
+    } catch (e: any) {
+
+      console.error(e)
+    }
+
+
     setOpen(true);
   }
   const handleClose = () => setOpen(false);
   // const handleOpen = () => setOpen(true);
 
   const ELEMS = [
-    { name: "Exaion Node", src: img, descr: "X% de discount", XTZ: "5" },
+    { name: "Exaion", src: img, descr: "X% de discount", XTZ: "5" },
     { name: "SIA Partners", src: img2, descr: "Une formation d'une journée dispensée par les meilleurs experts strat de SIA Partners", XTZ: "10" },
     { name: "SIA Partners", src: img2, descr: "Une formation d'une journée dispensée par les meilleurs experts strat de SIA Partners", XTZ: "10" },
     { name: "SIA Partners", src: img2, descr: "Une formation d'une journée dispensée par les meilleurs experts strat de SIA Partners", XTZ: "10" },
     { name: "SIA Partners", src: img2, descr: "Une formation d'une journée dispensée par les meilleurs experts strat de SIA Partners", XTZ: "10" },
   ]
 
-  function handleClick() {
+  async function handleClick() {
     if (change === null || change === "")
       setError("Pas de wallet entré")
     else if (change.length < 25 || change.length > 37) {
-      console.log(change.length)
-      setError("La taille de wallet entré est trop petite ou trop grande")
-
+      toast.error('La taille de wallet entrée est trop petite ou trop grande')
     }
-    else if (change.substring(0, 2) != "tz")
-      setError("Mauvais format de wallet")
+    else if (change.substring(0, 2) != "tz") {
+      toast.error("Mauvais format de wallet")
+    }
     else {
       setError(null)
       console.log(change)
-      setVerified(true)
-      toast.success('NFT trouvé ! Vous pouvez accéder aux deals des partenaires et recevoir de la crypto ✌')
+      // AXIOS
+      const axios = require('axios');
+      try {
+        const res = await axios({
+          method: 'get',
+          url: "https://siahackaton.reskue-art.com/user/verify",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          params: {
+            tzWallet: change,
+            eventName: "Sia-Hackathon"
+          }
+        });
+        console.log(res)
+        setVerified(true)
+        toast.success('NFT trouvé ! Vous pouvez accéder aux deals des partenaires et recevoir de la crypto ✌')
+      } catch (e: any) {
+        toast.error(e.response.data.message)
+      }
     }
   }
 
@@ -97,16 +134,20 @@ export default function Expertises(props: any) {
       <h1 className="pb-2 mb-2 text-5xl text-center">PARTENAIRES OFFICIELS</h1>
       <div className="px-8 pt-6 pb-8 mb-4 rounded shadow-md">
         <div className="flex flex-col w-2/3 mx-auto md:flex-row gap-2">
-
-          <input className="w-full p-0 mx-2 leading-tight text-gray-700 border rounded shadow appearance-none md:w-2/3 md:p-2 focus:outline-none focus:shadow-outline btn-gradient-border" id="username" type="text" placeholder="Colle ton adresse de wallet et découvre les bons plans de l'event"
+          <input className="w-full p-0 mx-2 leading-tight text-gray-700 border shadow appearance-none rounded-2xl md:w-2/3 md:p-2 focus:outline-none focus:shadow-outline btn-gradient-border" id="username" type="text" placeholder="Colle ton adresse de wallet et découvre les bons plans de l'event"
             onChange={(e) => setChange(e.target.value)}
           />
-          <button className="px-4 py-2 font-bold rounded btn-semi-transparent btn-glow focus:outline-none focus:shadow-outline"
-            type="button"
-            onClick={handleClick}
-          >
-            Envoyer
-          </button>
+          {
+            verified ? (<>
+              <VerifiedIcon sx={{ color: "#07fd9a", fontSize: 40 }} />
+            </>) : (<>
+              <button className="px-4 py-2 font-bold rounded btn-semi-transparent btn-glow focus:outline-none focus:shadow-outline"
+                type="button"
+                onClick={handleClick}>
+                Envoyer
+              </button>
+            </>)
+          }
         </div>
         {error && (<div className="w-2/3 p-2 mx-auto text-left text-red-500">{error}</div>)}
       </div>
@@ -144,4 +185,15 @@ export default function Expertises(props: any) {
 
     </div>
   )
+}
+
+export async function getServerSideProps() {
+  const response = await axios.get('https://siahackaton.reskue-art.com/partner/all');
+
+  console.log(response)
+  return {
+    props: {
+      data: response.data
+    }
+  }
 }
