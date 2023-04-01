@@ -5,6 +5,7 @@ import Layout from '@/components/dom/Layout'
 import '@/styles/index.css'
 import Navbar from '@/components/menu/Navbar'
 import { useFrame, useThree } from '@react-three/fiber'
+import { Toaster } from 'react-hot-toast'
 
 const Scene = dynamic(() => import('@/components/canvas/Scene'), { ssr: true })
 
@@ -22,6 +23,7 @@ export default function App({ Component, pageProps = { title: 'index' } }) {
     <>
       <Header title={pageProps.title} />
       <Layout ref={ref}>
+        <Toaster />
         <Navbar />
         {/* <Cursor mouseP={mousePos} /> */}
         <Component {...pageProps} />

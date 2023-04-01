@@ -91,6 +91,9 @@ export const Overlay = (props: any) => {
                             <h2 className="w-full pt-4 text-2xl italic text-left md:text-center md:text-3xl">
                                 Achète des produits des <span className="text red"> partenaires </span> du hackathon et reçois de la  <strong><span className="text">crypto</span></strong> </h2>
                         </div>
+                        <div className="arrow absolute left-1/2 transform-translate-x-1/2">
+                            <div className="w-10 h-10 border-b-4 border-r-4 border-white-900 animate-pulse transform rotate-45"></div>
+                        </div>
                     </Section>
                     <Expertises opacity={opacitySecondSection} />
                     {/* <TeamCard/> */}

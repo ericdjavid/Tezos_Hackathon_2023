@@ -10,6 +10,7 @@ import { GlitchPass } from "three/examples/jsm/postprocessing/GlitchPass";
 import * as THREE from 'three'
 import { UnrealBloomPass } from 'three-stdlib'
 import { Tezos } from './Tezos'
+import { SIA } from './SIA'
 
 extend({ GlitchPass });
 extend({ UnrealBloomPass })
@@ -42,8 +43,14 @@ export default function Experience(props) {
                 <color attach="background" args={['black']} />
                 <Overlay pages={PAGES} />
                 {/* <Office /> */}
-                <Tezos rotation={[Math.PI / 15, Math.PI / 1, 0]} scale={isMobile ? [1.7, 1.7, 1.7] : [8, 8, 8]} position={[isMobile ? -1.5 : 5, -2, 0]} />
-                <Grid infiniteGrid={true} position={[0, -3, 0]} fadeDistance={50} {...props} />
+                <EffectComposer>
+                    <Bloom />
+                    <Rig>
+                    <Tezos rotation={[Math.PI / 15, Math.PI / 1, 0]} scale={isMobile ? [1.7, 1.7, 1.7] : [8, 8, 8]} position={[isMobile ? -1.5 : 5, -2, 0]} />
+                    <SIA rotation={[Math.PI / 50, Math.PI / 2, 0]} scale={isMobile ? [1.7, 1.7, 1.7] : [15, 15, 15]} position={[isMobile ? -1.5 : -6, -2, 5]} />
+                    <Grid infiniteGrid={true} position={[0, -3, 0]} fadeDistance={50} {...props} />
+                    </Rig>
+                </EffectComposer>
             </ScrollControls>
         </>
     )
