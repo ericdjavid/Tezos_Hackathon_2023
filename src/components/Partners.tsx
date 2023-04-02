@@ -73,6 +73,7 @@ export default function Expertises(props: any) {
         },
         headers: {
           'Content-Type': 'application/json',
+          authorization: 'Bearer ' + token,
         },
       })
       setPaymentId(res?.data?.paymentId)
