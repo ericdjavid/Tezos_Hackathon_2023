@@ -12,6 +12,7 @@ import { useBookStore } from '@/store/bookStore'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 import CheckoutForm from './checkoutForm'
+import {PaymentStatus} from "@/utils/variables";
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -36,9 +37,11 @@ export default function Expertises(props: any) {
   const [verified, setVerified]: any = useState(false)
   const [modalData, setModalData]: any = useState(null)
   const [data, setData] = useState(props.data)
+  const [link, setLink] = useState<string | null>(null)
   const token = useBookStore((state) => {
     return state.token
   })
+  const account = useBookStore(state=> state.id)
 
   const id = useBookStore((state) => state.id)
   const [paymentId, setPaymentId] = useState(null)
@@ -79,7 +82,11 @@ export default function Expertises(props: any) {
       setPaymentId(res?.data?.paymentId)
       setClientSecret(res?.data?.clientSecret)
       const evtSource = new EventSource(`https://siahackaton.reskue-art.com/stripe/sse/payment/${res?.data?.paymentId}`)
-      evtSource.onmessage = function (e) {}
+      evtSource.onmessage = function (e) {
+        // if (e.data.status === PaymentStatus.CASHBACK_SENT) {
+        //   setLink(`https://better-call.dev/search?text=${account}`)
+        // }
+      }
     } catch (e) {
       console.error(e)
     }
@@ -106,11 +113,11 @@ export default function Expertises(props: any) {
   const handleClose = () => setOpen(false)
 
   async function handleClick() {
-    if (change === null || change === '') setError('Pas de wallet entré')
+    if (change === null || change === '') setError('Le champs wallet ne peut etre vide')
     else if (change.length < 25 || change.length > 37) {
-      toast.error('La taille de wallet entrée est trop petite ou trop grande')
+      toast.error('Format de wallet incompatible')
     } else if (change.substring(0, 2) != 'tz') {
-      toast.error('Mauvais format de wallet')
+      toast.error('Format de wallet incompatible')
     } else {
       setError(null)
       const axios = require('axios')

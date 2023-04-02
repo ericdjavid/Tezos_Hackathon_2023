@@ -5,6 +5,7 @@ import {
   useStripe,
   useElements
 } from "@stripe/react-stripe-js";
+import {useBookStore} from "@/store/bookStore";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -13,6 +14,7 @@ export default function CheckoutForm() {
   const [email, setEmail] = React.useState('');
   const [message, setMessage] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
+  const account = useBookStore(state=> state.id)
 
   React.useEffect(() => {
     if (!stripe) {
@@ -60,7 +62,7 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
+        return_url: `https://https://better-call.dev/search?text=${account}`
       },
     });
 
