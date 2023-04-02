@@ -1,5 +1,5 @@
 # Loop3r
- Rappel projet : Loop3r est une plateforme permettant d'obtenir du cashback en crypto en achetant en FIAT les produits des partenaires d'un évènement.  
+Loop3r est une plateforme permettant d'obtenir du cashback en crypto en achetant en FIAT les produits des partenaires d'un évènement.  
 Nous sommes partis de ce hackathon comme usecase et avons trouvé des partenaires prêts à proposer des produits, que nous avons référencés.
 
 ## Stack technique

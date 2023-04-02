@@ -170,7 +170,6 @@ export default function Expertises(props: any) {
               <> Pas de produit partenaire pour l instant</>
             ) : (
               <div className='flex flex-col gap-2'>
-                {/* TODO */}
                 {modalData?.data?.products.map((e) => (
                   <>
                     <div className=' w-full lg:max-w-full lg:flex'>
@@ -249,7 +248,7 @@ export default function Expertises(props: any) {
                   src={e.imageUrl ?? hackathon_img}
                   width={100}
                   height={100}
-                  className='mb-4'
+                  className='mb-4 align-middle mx-auto rounded-lg mt-2'
                   alt='partners locked'
                 />
                 <p className=''>{e.description.length > 70 ? e.description.slice(0, 70) + '...' : e.description}</p>
