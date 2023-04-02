@@ -23,6 +23,7 @@ const Navbar = () => {
   const [activeIdx, setActiveIdx] = useState(-1);
   const [web3auth, setWeb3auth] = useState<Web3Auth | null>(null);
   const [provider, setProvider] = useState<any | null>(null);
+  const [user, setUser] = useState<any | null>(null)
   const amount = useBookStore(state => state.balance)
   const updateAmount = useBookStore(state => state.updateAmount)
   const id = useBookStore(state => state.id)
@@ -31,13 +32,12 @@ const Navbar = () => {
   // const updateAccount = useBookStore(state => state.updateAccount)
   const email = useBookStore(state => state.mail)
   const updateMail = useBookStore(state => state.updateMail)
-  const PK = useBookStore(state => state.privateKey)
+  // const PK = useBookStore(state => state.privateKey)
   const updatePK = useBookStore(state => state.updatePrivateKey)
-  const token = useBookStore(state => state.token)
+  // const token = useBookStore(state => state.token)
   const updateToken = useBookStore(state => state.updateToken)
 
 
-  const [user, setUser] = useState(null)
 
   const clientId = "BLwmxmUFExak3J96QU-Do99l1ti4wc2_wl61QcJ24LzrHY29S4OFUOq--tgZclQ0KEiDPo6Gqd5Ljabr4rzHYds";
 
@@ -77,7 +77,7 @@ const Navbar = () => {
       // derive the Tezos Key Pair from the private key
       const tezosCrypto = require("@tezos-core-tools/crypto-utils");
       const keyPair = tezosCrypto.utils.seedToKeyPair(hex2buf(privateKey));
-      updatePK(privateKey)
+      await updatePK(privateKey)
 
       // keyPair.pkh is the account address.
       const account = keyPair?.pkh;
@@ -86,16 +86,17 @@ const Navbar = () => {
       // updateAccount(account)
 
       // console.log(account)
-      updateId(account)
-      updateMail(user.email)
+      await updateId(account)
+      await updateMail(user.email)
+      console.log("email", user.email)
       if (user?.idToken) {
-        updateToken(user.idToken)
+        await updateToken(user.idToken)
         console.log({
-          email: account,
-          account: id,
+          email: user.email,
+          account: account,
         })
         await axios.post("https://siahackaton.reskue-art.com/user/create", {
-          email: email,
+          email: user.email,
           account: account,
         }, {
           headers: {
@@ -123,9 +124,11 @@ const Navbar = () => {
     const web3authProvider = await web3auth.connect();
     setProvider(web3authProvider);
     console.log("Logged in Successfully!");
-    const user = await web3auth.getUserInfo(); // web3auth instance
+    const usr = await web3auth.getUserInfo(); // web3auth instance
+    console.log(usr)
     const tezos = new TezosToolkit("https://ghostnet.ecadinfra.com/");
-    setUser(user)
+    // await new Promise(f=>setTimeout(f, 2000))
+    await setUser(usr)
   };
 
   const logout = async () => {
