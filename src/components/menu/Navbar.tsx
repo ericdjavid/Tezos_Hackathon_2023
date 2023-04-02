@@ -5,6 +5,7 @@ import { useBookStore } from '@/store/bookStore'
 import { TezosToolkit } from '@taquito/taquito'
 import { hex2buf } from '@taquito/utils'
 import axios from 'axios'
+import { OpenloginAdapter } from '@web3auth/openlogin-adapter'
 
 const Navbar = () => {
   const [navActive, setNavActive] = useState<boolean | null>(null)
@@ -36,6 +37,13 @@ const Navbar = () => {
           },
           web3AuthNetwork: 'cyan',
         })
+        const openloginAdapter = new OpenloginAdapter({
+          adapterSettings: {
+            clientId, //Optional - Provide only if you haven't provided it in the Web3Auth Instantiation Code
+            network: "testnet",
+          },
+        });
+        web3auth.configureAdapter(openloginAdapter);
         setWeb3auth(web3auth)
         await web3auth.initModal()
         if (web3auth.provider) {
