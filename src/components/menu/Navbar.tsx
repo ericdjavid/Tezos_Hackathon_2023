@@ -10,7 +10,6 @@ import { TezosToolkit } from "@taquito/taquito";
 import { hex2buf } from "@taquito/utils";
 import { InMemorySigner } from "@taquito/signer";
 
-
 const MENU_LIST = [
   // { text: "Home", href: "/" },
   // { text: "About Us", href: "/about" },
