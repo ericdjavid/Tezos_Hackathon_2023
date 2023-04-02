@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { toast } from "react-hot-toast"
 import zIndex from "@mui/material/styles/zIndex";
+import { useBookStore } from "@/store/bookStore";
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -30,14 +31,14 @@ const style = {
 
 export default function Expertises(props: any) {
 
+  const amount = useBookStore(state => state?.balance)
   const [change, setChange]: any = useState(null)
   const [error, setError]: any = useState(null)
   const [verified, setVerified]: any = useState(false)
   const [modalData, setModalData]: any = useState(null)
   const [data, setData] = useState(props.data)
 
-
-  console.log(modalData?.data?.products)
+  // console.log(modalData?.data?.products)
 
   // La modale qui apparaît au clic sur la carte partenaire
   const [open, setOpen] = useState(false);
@@ -150,7 +151,7 @@ export default function Expertises(props: any) {
         </Modal>
       </div>
 
-      <h1 className="pb-2 mb-2 text-5xl text-center"> PARTENAIRES OFFICIELS</h1>
+      <h1 className="pb-2 mb-2 text-5xl text-center"> {amount} PARTENAIRES OFFICIELS</h1>
       <div className="px-8 pt-6 pb-8 mb-4 rounded shadow-md">
         <div className="flex flex-col w-2/3 mx-auto md:flex-row gap-2">
           <input className="w-full p-2 mx-2 leading-tight text-gray-700 border shadow appearance-none rounded-2xl md:w-2/3 focus:outline-none focus:shadow-outline btn-gradient-border" id="username" type="text" placeholder="Colle ton adresse de wallet et découvre les bons plans de l'event"

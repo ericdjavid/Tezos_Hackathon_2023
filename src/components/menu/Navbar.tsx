@@ -4,11 +4,13 @@ import React, { useEffect, useState } from "react";
 import NavItem from "./NavItem";
 import { Web3Auth } from "@web3auth/modal";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
+import { useBookStore } from "@/store/bookStore";
+
 
 const MENU_LIST = [
   // { text: "Home", href: "/" },
   // { text: "About Us", href: "/about" },
-  { text: "Contact us", href: "mailto:eric@reskue.art" },
+  // { text: "Contact us", href: "mailto:eric@reskue.art" },
   // { text: "About us", href: "/about" },
 ];
 
@@ -17,6 +19,8 @@ const Navbar = () => {
   const [activeIdx, setActiveIdx] = useState(-1);
   const [web3auth, setWeb3auth] = useState<Web3Auth | null>(null);
   const [provider, setProvider] = useState<any | null>(null);
+  const amount = useBookStore(state => state.balance)
+  const updateAmount = useBookStore(state => state.updateAmount)
 
   const clientId = "BLwmxmUFExak3J96QU-Do99l1ti4wc2_wl61QcJ24LzrHY29S4OFUOq--tgZclQ0KEiDPo6Gqd5Ljabr4rzHYds";
 
@@ -42,6 +46,7 @@ const Navbar = () => {
         if (web3auth.provider) {
           setProvider(web3auth.provider);
         }
+        console.log(web3auth)
       } catch (error) {
         console.error(error);
       }
@@ -72,6 +77,11 @@ const Navbar = () => {
         >
         </div>
         <div className={`${navActive ? "active" : ""} nav__menu-list`}>
+          <h1> Crypto: {amount} </h1>
+
+          <button
+            onClick={() => updateAmount(10)}
+          > Update Amount </button>
           {MENU_LIST.map((menu, idx) => (
             <div
               onClick={() => {
