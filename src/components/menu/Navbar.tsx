@@ -46,7 +46,6 @@ const Navbar = () => {
         console.error(error);
       }
     };
-
     init();
   }, []);
 

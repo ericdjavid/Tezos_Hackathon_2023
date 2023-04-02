@@ -201,20 +201,20 @@ h1 {
   background-color: black;
 }
 
-@media screen and (min-width: 900px) {
+/* @media screen and (min-width: 900px) { */
 
-  /* Définir le curseur personnalisé */
+  /* Définir le curseur personnalisé
   body {
     cursor: none;
   }
 
   /* Masquer le curseur par défaut */
-  body {
+  /* body {
     cursor: none;
-  }
+  } */ 
 
   /* Définir le point personnalisé */
-  .cursor {
+  /* .cursor {
     position: absolute;
     top: 0;
     left: 0;
@@ -225,18 +225,19 @@ h1 {
     pointer-events: none;
     transform: translate(-10px, -10px);
     transition: transform 0.2s ease-out;
-  }
+    z-index: 9999;
+  } */
 
   /* Mettre à jour la position du point en fonction de la position de la souris */
-  body:not(.disable-cursor) {
+  /* body:not(.disable-cursor) {
     cursor: none;
   }
 
   body:not(.disable-cursor) .cursor {
     animation: follow-cursor 0.2s forwards;
-  }
+  } */
 
-  @keyframes follow-cursor {
+  /* @keyframes follow-cursor {
     from {
       transform: translate(-10px, -10px);
     }
@@ -249,7 +250,7 @@ h1 {
   body:not(.disable-cursor) .cursor:hover {
     transform: translate(calc(var(--cursor-x) - 10px + 5px), calc(var(--cursor-y) - 10px + 5px));
   }
-}
+} */
 
 .text {
   background-image: linear-gradient(60deg, #8500ff, #ff8100);

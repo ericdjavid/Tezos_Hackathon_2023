@@ -48,7 +48,6 @@ export const Overlay = (props: any) => {
         }
     }, [scroll.offset])
 
-
     const comp = useRef(); // create a ref for the root level element (for scoping)
     const test = useRef();
 
