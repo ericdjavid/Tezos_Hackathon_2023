@@ -11,14 +11,12 @@ import axios from 'axios'
 
 // Dom components go here
 export default function Page({ data }) {
-
   return (
     <>
       <header>
         <title>BlockDeals - des deals des meilleurs partenaires</title>
       </header>
     </>
-
   )
 }
 
@@ -31,13 +29,11 @@ Page.canvas = (props) => (
 )
 
 export async function getServerSideProps() {
-  const response = await axios.get('https://siahackaton.reskue-art.com/partner/all');
+  const response = await axios.get('https://siahackaton.reskue-art.com/partner/all')
 
-  // console.log(response)
   return {
     props: {
-      data: response.data
-      // data: "lolcat"
-    }
+      data: response.data,
+    },
   }
 }
