@@ -1,33 +1,13 @@
-import {
-  Cloud,
-  Effects,
-  Grid,
-  Html,
-  MeshTransmissionMaterial,
-  OrbitControls,
-  Reflector,
-  Scroll,
-  ScrollControls,
-  Sky,
-  Sparkles,
-  useFBO,
-  useGLTF,
-  useScroll,
-  useTexture,
-} from '@react-three/drei'
-import { createPortal, extend, useFrame, useThree } from '@react-three/fiber'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { Grid, ScrollControls } from '@react-three/drei'
+import { extend, useFrame, useThree } from '@react-three/fiber'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { Overlay } from '../Overlay'
-import Blob from './Blob'
-import { Office } from './Office'
-import styled from '@emotion/styled'
-import { Bloom, DepthOfField, EffectComposer, Noise, Vignette } from '@react-three/postprocessing'
+import { Bloom, EffectComposer } from '@react-three/postprocessing'
 import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass'
 import * as THREE from 'three'
 import { UnrealBloomPass } from 'three-stdlib'
 import { Tezos } from './Tezos'
 import { SIA } from './SIA'
-import { TZ } from './TZ'
 
 extend({ GlitchPass })
 extend({ UnrealBloomPass })

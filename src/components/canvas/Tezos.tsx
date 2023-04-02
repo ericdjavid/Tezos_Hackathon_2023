@@ -9,7 +9,7 @@ import { useFrame, useThree } from '@react-three/fiber'
 import gsap from 'gsap'
 
 export function Tezos(props) {
-  const { nodes, materials } = useGLTF('./models/Tezos.glb')
+  const { nodes, materials }: any = useGLTF('./models/Tezos.glb')
 
   const ref: any = useRef()
   const tl: any = useRef()

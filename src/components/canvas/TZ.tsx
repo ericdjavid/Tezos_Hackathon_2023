@@ -7,7 +7,7 @@ import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 
 export function TZ(props) {
-  const { nodes, materials } = useGLTF('./models/TZ.glb')
+  const { nodes, materials }: any = useGLTF('./models/TZ.glb')
   return (
     <group {...props} dispose={null}>
       <mesh geometry={nodes.Curve.geometry} material={materials['SVGMat.001']} rotation={[Math.PI / 2, 0, 0]} />
