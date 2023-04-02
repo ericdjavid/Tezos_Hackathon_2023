@@ -12,6 +12,7 @@ import { useBookStore } from '@/store/bookStore'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 import CheckoutForm from './checkoutForm'
+import axios from 'axios'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -64,7 +65,6 @@ export default function Expertises(props: any) {
       return
     }
     try {
-      const axios = require('axios')
       const res = await axios({
         method: 'post',
         url: `https://siahackaton.reskue-art.com/stripe/payment`,
@@ -76,8 +76,8 @@ export default function Expertises(props: any) {
           authorization: 'Bearer ' + token,
         },
       })
-      setPaymentId(res?.data?.paymentId)
-      setClientSecret(res?.data?.clientSecret)
+      setPaymentId(res.data.paymentId)
+      setClientSecret(res.data.clientSecret)
       const evtSource = new EventSource(`https://siahackaton.reskue-art.com/stripe/sse/payment/${res?.data?.paymentId}`)
       evtSource.onmessage = function (e) {}
     } catch (e) {
@@ -142,13 +142,15 @@ export default function Expertises(props: any) {
         {
           // opacity: props.opacity,
         }
-      }>
+      }
+    >
       <div>
         <Modal
           open={open}
           onClose={handleClose}
           aria-labelledby='modal-modal-title'
-          aria-describedby='modal-modal-description'>
+          aria-describedby='modal-modal-description'
+        >
           <Box sx={style}>
             <Typography id='modal-modal-title' variant='h6' component='h2'>
               {modalData?.data?.name}
@@ -189,11 +191,6 @@ export default function Expertises(props: any) {
                               <CheckoutForm />
                             </Elements>
                           )}
-                          {/* <Image className="w-10 h-10 mr-4 rounded-full" src={e.imageUrl} width={100} height={100} alt="Avatar of Writer" />
-                          <div className="text-sm">
-                            <p className="leading-none text-gray-900">John Smith</p>
-                            <p className="text-gray-600">Aug 18</p>
-                          </div> */}
                         </div>
                       </div>
                     </div>
@@ -224,7 +221,8 @@ export default function Expertises(props: any) {
               <button
                 className='w-1/2 px-4 py-2 mx-auto font-bold rounded md:w-1/4 btn-semi-transparent btn-glow focus:outline-none focus:shadow-outline'
                 type='button'
-                onClick={handleClick}>
+                onClick={handleClick}
+              >
                 Envoyer
               </button>
             </>
@@ -236,23 +234,19 @@ export default function Expertises(props: any) {
         {data.map((e) => (
           <div
             key={Math.random().toString(36).substring(7)}
-            className='relative items-center w-3/4 h-full p-10 mx-auto mt-2 mb-6 border-white md:w-1/4 gap-2 md:m-10 min-h-min bg-stone-900 bg-opacity-90 rounded-md'>
+            className='relative items-center w-3/4 h-full p-10 mx-auto mt-2 mb-6 border-white md:w-1/4 gap-2 md:m-10 min-h-min bg-stone-900 bg-opacity-90 rounded-md'
+          >
             <h1 className='h-20 pb-4 text-4xl text-center align-middle'>{e.name}</h1>
             <span className='text-center bulle btn-glow'>+{e.maxCashback} XTZ</span>
             {verified === true ? (
               <div>
-                <Image
-                  src={e.imageUrl ?? hackathon_img}
-                  className='mb-4'
-                  alt='partners locked'
-                  width={100}
-                  height={50}
-                />
+                <Image src={e.imageUrl ?? hackathon_img} className='mb-4' alt='partners locked' />
                 <p className=''>{e.description.length > 70 ? e.description.slice(0, 70) + '...' : e.description}</p>
                 <button
                   className='px-4 py-2 my-3 font-bold rounded btn-semi-transparent btn-glow focus:outline-none focus:shadow-outline'
                   type='button'
-                  onClick={() => handleOpen(e)}>
+                  onClick={() => handleOpen(e)}
+                >
                   Claim
                 </button>
               </div>

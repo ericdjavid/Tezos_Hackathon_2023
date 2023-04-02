@@ -14,9 +14,9 @@ export default function App({ Component, pageProps = { title: 'index' } }) {
 
   useEffect(() => {
     document.addEventListener('mousemove', function (e) {
-      document.documentElement.style.setProperty('--cursor-x', e.clientX + 'px');
-      document.documentElement.style.setProperty('--cursor-y', e.clientY + 'px');
-    });
+      document.documentElement.style.setProperty('--cursor-x', e.clientX + 'px')
+      document.documentElement.style.setProperty('--cursor-y', e.clientY + 'px')
+    })
   }, [])
 
   return (
@@ -29,13 +29,11 @@ export default function App({ Component, pageProps = { title: 'index' } }) {
         <Component {...pageProps} />
         {/* The canvas can either be in front of the dom or behind. If it is in front it can overlay contents.
          * Setting the event source to a shared parent allows both the dom and the canvas to receive events.
-        * Since the event source is now shared, the canvas would block events, we prevent that with pointerEvents: none. */}
+         * Since the event source is now shared, the canvas would block events, we prevent that with pointerEvents: none. */}
         {Component?.canvas && (
           // <Scene className='pointer-events-none' eventSource={ref} eventPrefix='client'>
           <>
-            <Scene>
-              {Component.canvas(pageProps)}
-            </Scene>
+            <Scene>{Component.canvas(pageProps)}</Scene>
           </>
         )}
 

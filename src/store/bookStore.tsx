@@ -1,12 +1,12 @@
 import { create } from 'zustand'
 
 interface IUser {
-  balance: number | null,
-  id: string | null,
-  mail: string | null,
+  balance: number | null
+  id: string | null
+  mail: string | null
   // account: string | null,
-  privateKey: string | null,
-  token: string | null,
+  privateKey: string | null
+  token: string | null
   // tezos: any | null,
   updateAmount: (newAmount: number) => void
   updateId: (newId: string) => void
@@ -17,7 +17,6 @@ interface IUser {
   updateToken: (newToken: string) => void
 
   // getId: () => string
-
 }
 
 export const useBookStore = create<IUser>((set, get) => ({
@@ -28,7 +27,7 @@ export const useBookStore = create<IUser>((set, get) => ({
   privateKey: null,
   token: null,
   updateId: (newId: string) => set({ id: newId }),
-  // set can also receive a function as a parameter 
+  // set can also receive a function as a parameter
   // updateAmount: (newAmount: number) => set(state => ({ ...state, amount: state.amount + newAmount }))
   updateAmount: (newAmount: number) => {
     set({ balance: newAmount })
@@ -37,16 +36,16 @@ export const useBookStore = create<IUser>((set, get) => ({
   //   set({ account: newAccount})
   // },
   updateMail: (newMail: string) => {
-    set({ mail: newMail})
+    set({ mail: newMail })
   },
   updatePrivateKey: (newPK: string) => {
-    set({ privateKey: newPK})
+    set({ privateKey: newPK })
   },
   updateToken: (newTok: string) => {
     set({ token: newTok })
-  }
+  },
 
   // getId: () => {
   //   get(id)
   // }
-}));
+}))

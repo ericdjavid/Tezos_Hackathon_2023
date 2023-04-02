@@ -11,7 +11,13 @@ export function SIA(props) {
   return (
     <group {...props} dispose={null}>
       <mesh geometry={nodes.Curve004.geometry} material={materials['Material.001']} rotation={[1.39, 0, 0]} />
-      <mesh geometry={nodes.Cube.geometry} material={materials['Material.002']} position={[0.36, 0.02, 0]} rotation={[-0.19, 0.04, 2.32]} scale={[-0.01, -0.02, 0]} />
+      <mesh
+        geometry={nodes.Cube.geometry}
+        material={materials['Material.002']}
+        position={[0.36, 0.02, 0]}
+        rotation={[-0.19, 0.04, 2.32]}
+        scale={[-0.01, -0.02, 0]}
+      />
     </group>
   )
 }
