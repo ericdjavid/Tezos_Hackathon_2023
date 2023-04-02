@@ -232,7 +232,7 @@ export default function Expertises(props: any) {
         </div>
         {error && <div className='w-2/3 p-2 mx-auto text-left text-red-500'>{error}</div>}
       </div>
-      <div className='justify-center m-2 mb-4 md:flex md:flex-wrap md:flex-row h-80 md:mb-0 md:h-96'>
+      <div className='justify-center m-2 mb-4 md:flex md:flex-wrap md:flex-row '>
         {data.map((e) => (
           <div
             key={Math.random().toString(36).substring(7)}
@@ -240,10 +240,10 @@ export default function Expertises(props: any) {
             <h1 className='h-20 pb-4 text-4xl text-center align-middle'>{e.name}</h1>
             <span className='text-center bulle btn-glow'>+{e.maxCashback} XTZ</span>
             {verified === true ? (
-              <>
+              <div>
                 <Image
                   src={e.imageUrl ?? hackathon_img}
-                  className='mb-4 ml-auto mr-auto'
+                  className='mb-4'
                   alt='partners locked'
                   width={100}
                   height={50}
@@ -255,7 +255,7 @@ export default function Expertises(props: any) {
                   onClick={() => handleOpen(e)}>
                   Claim
                 </button>
-              </>
+              </div>
             ) : (
               <>
                 <Image src={lockpad} alt='partners' />
