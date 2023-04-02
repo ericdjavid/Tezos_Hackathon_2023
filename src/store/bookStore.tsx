@@ -4,12 +4,13 @@ interface IUser {
   balance: number | null,
   id: string | null,
   updateAmount: (newAmount: number) => void
+  updateId: (newId: string) => void
 }
 
 export const useBookStore = create<IUser>((set, get) => ({
-  balance: 0,
-  id: "Alice's Adventures in Wonderland",
-  // updateAmount: (newAmount: number) => set({ balance: newAmount }),
+  balance: null,
+  id: null,
+  updateId: (newId: string) => set({ id: newId }),
   // set can also receive a function as a parameter 
   // updateAmount: (newAmount: number) => set(state => ({ ...state, amount: state.amount + newAmount }))
   updateAmount: (newAmount: number) => {

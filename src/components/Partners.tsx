@@ -151,15 +151,14 @@ export default function Expertises(props: any) {
         </Modal>
       </div>
 
-      <h1 className="pb-2 mb-2 text-5xl text-center"> {amount} PARTENAIRES OFFICIELS</h1>
+      <h1 className="relative pb-2 mb-2 text-5xl text-center"> PARTENAIRES OFFICIELS</h1>
       <div className="px-8 pt-6 pb-8 mb-4 rounded shadow-md">
-        <div className="flex flex-col w-2/3 mx-auto md:flex-row gap-2">
+        <div className="flex flex-col w-full md:w-2/3 mx-auto md:flex-row gap-4 md:gap-2">
           <input className="w-full p-2 mx-2 leading-tight text-gray-700 border shadow appearance-none rounded-2xl md:w-2/3 focus:outline-none focus:shadow-outline btn-gradient-border" id="username" type="text" placeholder="Colle ton adresse de wallet et découvre les bons plans de l'event"
             onChange={(e) => setChange(e.target.value)}
           />
           {
             verified ? (<>
-
               <VerifiedIcon sx={{ color: "#07fd9a", fontSize: 40 }} />
             </>) : (<>
               <button className="w-1/2 px-4 py-2 mx-auto font-bold rounded md:w-1/4 btn-semi-transparent btn-glow focus:outline-none focus:shadow-outline"
@@ -172,9 +171,9 @@ export default function Expertises(props: any) {
         </div>
         {error && (<div className="w-2/3 p-2 mx-auto text-left text-red-500">{error}</div>)}
       </div>
-      <div className="flex flex-col flex-wrap justify-center m-2 md:flex-row h-96">
+      <div className=" md:flex md:flex-wrap justify-center m-2 md:flex-row h-80 mb-4 md:mb-0 md:h-96">
         {data.map((e) => (
-          <div key={Math.random().toString(36).substring(7)} className=" relative w-full h-full p-10 mt-2 mb-2 border-white md:w-1/4 md:m-10 min-h-min bg-stone-900 bg-opacity-90 rounded-md">
+          <div key={Math.random().toString(36).substring(7)} className=" relative w-3/4 md:w-1/4 gap-2 h-full p-10 mt-2 mb-6 border-white md:w-1/4 md:m-10 min-h-min bg-stone-900 bg-opacity-90 rounded-md items-center mx-auto">
             <h1 className="pb-4 text-4xl text-center h-20 align-middle">{e.name}</h1>
             <span className="text-center bulle btn-glow">+{e.maxCashback} XTZ</span>
             {verified === true ? (

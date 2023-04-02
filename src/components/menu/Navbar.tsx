@@ -5,6 +5,10 @@ import NavItem from "./NavItem";
 import { Web3Auth } from "@web3auth/modal";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import { useBookStore } from "@/store/bookStore";
+import { SafeEventEmitterProvider } from "@web3auth/base";
+import { TezosToolkit } from "@taquito/taquito";
+import { hex2buf } from "@taquito/utils";
+import { InMemorySigner } from "@taquito/signer";
 
 
 const MENU_LIST = [
@@ -21,6 +25,10 @@ const Navbar = () => {
   const [provider, setProvider] = useState<any | null>(null);
   const amount = useBookStore(state => state.balance)
   const updateAmount = useBookStore(state => state.updateAmount)
+  const id = useBookStore(state => state.id)
+  const updateId = useBookStore(state => state.updateId)
+  
+  const [user, setUser] = useState(null)
 
   const clientId = "BLwmxmUFExak3J96QU-Do99l1ti4wc2_wl61QcJ24LzrHY29S4OFUOq--tgZclQ0KEiDPo6Gqd5Ljabr4rzHYds";
 
@@ -46,13 +54,37 @@ const Navbar = () => {
         if (web3auth.provider) {
           setProvider(web3auth.provider);
         }
-        console.log(web3auth)
       } catch (error) {
         console.error(error);
       }
     };
     init();
   }, []);
+
+  useEffect(() => {
+    // web3authProvider is web3auth.provider from above
+    async function func() {
+      const privateKey: any = await provider.request({ method: "private_key" });
+      // derive the Tezos Key Pair from the private key
+      const tezosCrypto = require("@tezos-core-tools/crypto-utils");
+      const keyPair = tezosCrypto.utils.seedToKeyPair(hex2buf(privateKey));
+
+      // keyPair.pkh is the account address.
+      const account = keyPair?.pkh;
+
+      console.log(account)
+      updateId(account)
+
+    }
+
+    if (user != null) {
+      func()
+    }
+    // get balance of the account
+    // const balance = await tezos.tz.getBalance(account);
+
+  }, [user])
+
 
   const login = async () => {
     if (!web3auth) {
@@ -62,6 +94,15 @@ const Navbar = () => {
     const web3authProvider = await web3auth.connect();
     setProvider(web3authProvider);
     console.log("Logged in Successfully!");
+    const user = await web3auth.getUserInfo(); // web3auth instance
+    setUser(user)
+    console.log(user)
+    const tezos = new TezosToolkit("https://ithacanet.ecadinfra.com");
+    /*
+      Use code from the above Initializing Provider here
+    */
+
+
   };
 
   return (
@@ -77,7 +118,8 @@ const Navbar = () => {
         >
         </div>
         <div className={`${navActive ? "active" : ""} nav__menu-list`}>
-          <h1> Crypto: {amount} </h1>
+          <h1>{id ? (id) : ("no connected")}</h1>
+          {/* <h1> Crypto: {amount} </h1> */}
 
           <button
             onClick={() => updateAmount(10)}
