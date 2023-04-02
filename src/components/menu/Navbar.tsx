@@ -11,7 +11,6 @@ import { hex2buf } from "@taquito/utils";
 import { InMemorySigner } from "@taquito/signer";
 import axios from "axios";
 
-
 const MENU_LIST = [
   // { text: "Home", href: "/" },
   // { text: "About Us", href: "/about" },

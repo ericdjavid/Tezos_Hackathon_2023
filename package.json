@@ -19,6 +19,8 @@
     "@react-three/drei": "^9.56.5",
     "@react-three/fiber": "^8.10.1",
     "@react-three/postprocessing": "^2.7.0",
+    "@stripe/react-stripe-js": "^2.1.0",
+    "@stripe/stripe-js": "^1.52.0",
     "@studio-freight/lenis": "^0.2.28",
     "@taquito/signer": "^16.0.1",
     "@taquito/taquito": "^16.0.1",
