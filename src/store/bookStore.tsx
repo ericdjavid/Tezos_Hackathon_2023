@@ -6,11 +6,13 @@ interface IUser {
   mail: string | null
   privateKey: string | null
   token: string | null
+  link: string | null
   updateAmount: (newAmount: number) => void
   updateId: (newId: string) => void
   updateMail: (newMail: string) => void
   updatePrivateKey: (newPK: string) => void
   updateToken: (newToken: string) => void
+  setLink: (newLink: string) => void
 }
 
 export const useBookStore = create<IUser>((set, get) => ({
@@ -19,6 +21,7 @@ export const useBookStore = create<IUser>((set, get) => ({
   mail: null,
   privateKey: null,
   token: null,
+  link: null,
   updateId: (newId: string) => set({ id: newId }),
   // set can also receive a function as a parameter
   updateAmount: (newAmount: number) => {
@@ -32,5 +35,9 @@ export const useBookStore = create<IUser>((set, get) => ({
   },
   updateToken: (newTok: string) => {
     set({ token: newTok })
+  },
+
+  setLink: (newLink: string) => {
+    set({ link: newLink })
   },
 }))
