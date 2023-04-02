@@ -9,6 +9,7 @@ import { SafeEventEmitterProvider } from "@web3auth/base";
 import { TezosToolkit } from "@taquito/taquito";
 import { hex2buf } from "@taquito/utils";
 import { InMemorySigner } from "@taquito/signer";
+import axios from "axios";
 
 
 const MENU_LIST = [
@@ -27,7 +28,16 @@ const Navbar = () => {
   const updateAmount = useBookStore(state => state.updateAmount)
   const id = useBookStore(state => state.id)
   const updateId = useBookStore(state => state.updateId)
-  
+  // const account = useBookStore(state => state.account)
+  // const updateAccount = useBookStore(state => state.updateAccount)
+  const email = useBookStore(state => state.mail)
+  const updateMail = useBookStore(state => state.updateMail)
+  const PK = useBookStore(state => state.privateKey)
+  const updatePK = useBookStore(state => state.updatePrivateKey)
+  const token = useBookStore(state => state.token)
+  const updateToken = useBookStore(state => state.updateToken)
+
+
   const [user, setUser] = useState(null)
 
   const clientId = "BLwmxmUFExak3J96QU-Do99l1ti4wc2_wl61QcJ24LzrHY29S4OFUOq--tgZclQ0KEiDPo6Gqd5Ljabr4rzHYds";
@@ -68,13 +78,33 @@ const Navbar = () => {
       // derive the Tezos Key Pair from the private key
       const tezosCrypto = require("@tezos-core-tools/crypto-utils");
       const keyPair = tezosCrypto.utils.seedToKeyPair(hex2buf(privateKey));
+      updatePK(privateKey)
 
       // keyPair.pkh is the account address.
       const account = keyPair?.pkh;
 
-      console.log(account)
-      updateId(account)
+      // updateAmount(await account.getBalance())
+      // updateAccount(account)
 
+      // console.log(account)
+      updateId(account)
+      updateMail(user.email)
+      if (user?.idToken) {
+        updateToken(user.idToken)
+        console.log({
+          email: account,
+          account: id,
+        })
+        await axios.post("https://siahackaton.reskue-art.com/user/create", {
+          email: email,
+          account: account,
+        }, {
+          headers: {
+            "Content-type": "application/json",
+            "authorization": "Bearer " + user.idToken,
+          }
+        })
+      }
     }
 
     if (user != null) {
@@ -95,14 +125,21 @@ const Navbar = () => {
     setProvider(web3authProvider);
     console.log("Logged in Successfully!");
     const user = await web3auth.getUserInfo(); // web3auth instance
+    const tezos = new TezosToolkit("https://ghostnet.ecadinfra.com/");
     setUser(user)
-    console.log(user)
-    const tezos = new TezosToolkit("https://ithacanet.ecadinfra.com");
-    /*
-      Use code from the above Initializing Provider here
-    */
+  };
 
-
+  const logout = async () => {
+    if (!web3auth) {
+      console.log("web3auth not initialized yet");
+      return;
+    }
+    await web3auth.logout();
+    setProvider(null);
+    updateAmount(null)
+    updatePK(null)
+    updateId(null)
+    setUser(null)
   };
 
   return (
@@ -120,10 +157,6 @@ const Navbar = () => {
         <div className={`${navActive ? "active" : ""} nav__menu-list`}>
           <h1>{id ? (id) : ("no connected")}</h1>
           {/* <h1> Crypto: {amount} </h1> */}
-
-          <button
-            onClick={() => updateAmount(10)}
-          > Update Amount </button>
           {MENU_LIST.map((menu, idx) => (
             <div
               onClick={() => {
@@ -135,7 +168,10 @@ const Navbar = () => {
               <NavItem active={activeIdx === idx} {...menu} />
             </div>
           ))}
-          <button className="p-2 btn-semi-transparent" onClick={login}>Log the fucking in</button>
+          {id ? <button className="p-2 btn-semi-transparent" onClick={logout}>Logout</button>
+            :
+          <button className="p-2 btn-semi-transparent" onClick={login}>Login</button>
+          }
         </div>
 
       </nav>

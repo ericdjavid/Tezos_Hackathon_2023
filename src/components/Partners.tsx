@@ -12,6 +12,7 @@ import Modal from '@mui/material/Modal';
 import { toast } from "react-hot-toast"
 import zIndex from "@mui/material/styles/zIndex";
 import { useBookStore } from "@/store/bookStore";
+import {publicKey} from "@solana/web3.js/src/layout";
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -37,6 +38,9 @@ export default function Expertises(props: any) {
   const [verified, setVerified]: any = useState(false)
   const [modalData, setModalData]: any = useState(null)
   const [data, setData] = useState(props.data)
+  // const id = useBookStore(state => state.id)
+  const token = useBookStore(state => {return state.token})
+
 
   // console.log(modalData?.data?.products)
 
@@ -78,6 +82,7 @@ export default function Expertises(props: any) {
           url: "https://siahackaton.reskue-art.com/user/verify",
           headers: {
             'Content-Type': 'application/json',
+            'authorization': 'Bearer ' + token,
           },
           params: {
             tzWallet: change,
